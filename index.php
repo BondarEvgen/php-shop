@@ -1,6 +1,9 @@
 <?php
 	$pageTitle = "Главная страница";
+
 	include("./templates/_head.php");
+
+	require("./config.php")
 ?>
 
 	<!-- white-plate -->
@@ -23,10 +26,31 @@
 
 						<!-- Товар 1 -->
 						<?php
-							for($i = 0; $i <= 5; $i++){
 
-								include("./templates/_prodact-item.php");
-							};
+														// Делаем запрос к базе 
+								$sql = "SELECT * FROM products";
+
+								// Записываем в переменную данные
+
+								$result = $db->query($sql);
+
+								// Преобразуем result в ассациотивный массив
+
+								$products = $result->fetchAll(PDO::FETCH_ASSOC);
+
+
+								foreach($products as $product){
+									include("./templates/_prodact-item.php");
+									
+								};
+
+
+
+
+							// for($i = 0; $i <= 5; $i++){
+
+							// 	include("./templates/_prodact-item.php");
+							// };
 						?>
 						<!-- // Товар 1 -->
 
