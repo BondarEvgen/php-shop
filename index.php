@@ -3,7 +3,9 @@
 
 	include("./templates/_head.php");
 
-	require("./config.php")
+	require('./config.php');
+
+	// require("./config.php")
 ?>
 
 	<!-- white-plate -->
@@ -27,25 +29,87 @@
 						<!-- Товар 1 -->
 						<?php
 
-														// Делаем запрос к базе 
-								$sql = "SELECT * FROM products";
+						
+								// include("./product-filter.php");
+								
+$filteredProducts = [];
 
-								// Записываем в переменную данные
+// Делаем запрос к базе 
+$sql = "SELECT * FROM products";
 
-								$result = $db->query($sql);
+// Записываем в переменную данные
 
-								// Преобразуем result в ассациотивный массив
+$result = $db->query($sql);
 
-								$products = $result->fetchAll(PDO::FETCH_ASSOC);
+// Преобразуем result в ассациотивный массив
+
+$responsData= $result->fetchAll(PDO::FETCH_ASSOC);
+
+$dataFromGET = $_GET;
+
+// print_r($_GET);
 
 
-								foreach($products as $product){
+
+if($dataFromGET["category"] == "all"){
+  $filteredProducts = $responsData;
+  // header("location: index.php");
+
+} 
+elseif ($dataFromGET["category"] == "telefons") {
+  foreach($responsData as $item) {
+    if($item["category"] == 'telefons') {
+      array_push($filteredProducts, $item);
+      
+    }
+  }
+  // header("location: index.php");
+}
+elseif ($dataFromGET["category"] == "tablet") {
+
+  foreach($responsData as $item) {
+    if($item["category"] == "tablet") {
+      array_push($filteredProducts, $item);
+    }
+  }
+  // header("location: index.php");
+
+}
+elseif ($dataFromGET["category"] == "laptop") {
+
+  foreach($responsData as $item) {
+    if($item["category"] == "laptop") {
+      array_push($filteredProducts, $item);
+    }
+  }
+  // header("location: index.php");
+
+}
+elseif ($dataFromGET["category"] == "computer") {
+
+  foreach($responsData as $item) {
+    if($item["category"] == "computer") {
+      array_push($filteredProducts, $item);
+    }
+  }
+  // header("location: index.php");
+  // print_r($filteredProducts);
+
+}
+else {
+  $filteredProducts = $responsData;
+  // header("location: index.php");
+}
+
+
+
+
+
+
+								foreach($filteredProducts as $product){
 									include("./templates/_prodact-item.php");
 									
 								};
-
-
-
 
 							// for($i = 0; $i <= 5; $i++){
 
